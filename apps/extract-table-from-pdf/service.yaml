@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: extracttable-deployment
+  labels:
+    app: extracttable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: extracttable
+  template:
+    metadata:
+      labels:
+        app: extracttable
+        delay_edge-1: "3400"
+    spec:
+      containers:
+      - name: extracttable
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/extract-table:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 3400
+          containerPort: 3400
+      imagePullSecrets:
+      - name: myregcred

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facemaskdetection-deployment
+  labels:
+    app: facemaskdetection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: facemaskdetection
+  template:
+    metadata:
+      labels:
+        app: facemaskdetection
+        delay_edge-1: "3300"
+    spec:
+      containers:
+      - name: facemaskdetection
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/facemask-detection:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 3300
+          containerPort: 3300
+      imagePullSecrets:
+      - name: myregcred

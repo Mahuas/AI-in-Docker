@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facerecognition-deployment
+  labels:
+    app: facerecognition
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: facerecognition
+  template:
+    metadata:
+      labels:
+        app: facerecognition
+        delay_edge-1: "2700"
+    spec:
+      containers:
+      - name: facerecognition
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/face-recognition:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 2700
+          containerPort: 2700

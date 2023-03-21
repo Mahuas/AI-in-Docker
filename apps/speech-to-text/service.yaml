@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speechtotext-deployment
+  labels:
+    app: speechtotext
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: speechtotext
+  template:
+    metadata:
+      labels:
+        app: speechtotext
+        delay_edge-1: "2900"
+    spec:
+      containers:
+      - name: speechtotext
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/speech-to-text:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 2900
+          containerPort: 2900
+      imagePullSecrets:
+      - name: myregcred

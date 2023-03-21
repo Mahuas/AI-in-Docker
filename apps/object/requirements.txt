@@ -1,0 +1,6 @@
+keras
+tensorflow==1.14
+flask
+gevent
+pillow
+requests

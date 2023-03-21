@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocr-deployment
+  labels:
+    app: ocr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocr
+  template:
+    metadata:
+      labels:
+        app: ocr
+        delay_edge-1: "2500"
+    spec:
+      schedulerName: custom-scheduler
+      containers:
+      - name: ocr
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/ocr:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 2500
+          containerPort: 2500
+   
+
+

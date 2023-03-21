@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verifycode-deployment
+  labels:
+    app: verifycode
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: verifycode
+  template:
+    metadata:
+      labels:
+        app: verifycode
+        delay_edge-1: "3500"
+    spec:
+      containers:
+      - name: verifycode
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/verify-code:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 3500
+          containerPort: 3500
+      imagePullSecrets:
+      - name: myregcred

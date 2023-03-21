@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imagerecon-deployment
+  labels:
+    app: imagerecon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: imagerecon
+  template:
+    metadata:
+      labels:
+        app: imagerecon
+    spec:
+      containers:
+      - name: imagerecon
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/object:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 2400
+          containerPort: 2400
+   
+
+

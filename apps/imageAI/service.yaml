@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imageai-deployment
+  labels:
+    app: imageai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: imageai
+  template:
+    metadata:
+      labels:
+        app: imageai
+        delay_edge-1: "3600"
+    spec:
+      containers:
+      - name: imageai
+        image: registry.cn-hangzhou.aliyuncs.com/k3s_ssh/imageai:latest
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        ports:
+        - name: http
+          hostPort: 3600
+          containerPort: 3600
+      imagePullSecrets:
+      - name: myregcred
